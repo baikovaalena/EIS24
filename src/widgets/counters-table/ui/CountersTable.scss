@@ -59,10 +59,11 @@
     tr {
       display: grid;
       grid-template-columns: var(--counters-table-columns);
+      color: var(--counter-table-header-text-color);
     }
 
     th {
-      padding: 12px;
+      padding: 8px 0;
       font-weight: 500;
       white-space: nowrap;
       background: var(--counter-table-header-bg);
