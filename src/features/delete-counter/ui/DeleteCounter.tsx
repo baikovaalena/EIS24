@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { TrashIcon } from '@shared/images';
-import './DeleteButton.scss';
+import './DeleteCounter.scss';
 
 interface IProps {
   className?: string;
@@ -8,14 +8,14 @@ interface IProps {
   onClick?: () => void;
 }
 
-export const DeleteButton = ({ className, isDisabled, onClick }: IProps) => (
+export const DeleteCounter = ({ className, isDisabled, onClick }: IProps) => (
   <button
     type="button"
-    className={clsx('delete-button', className)}
+    className={clsx('delete-counter', className)}
     disabled={isDisabled}
     onClick={onClick}
     aria-label="Удалить"
   >
-    <TrashIcon />
+    <TrashIcon width={16} height={16} />
   </button>
 );

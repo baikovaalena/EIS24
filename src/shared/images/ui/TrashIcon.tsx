@@ -1,12 +1,10 @@
-import type { SVGProps } from 'react';
+interface IProps {
+  width?: number;
+  height?: number;
+  className?: string;
+}
 
-type TrashIconProps = SVGProps<SVGSVGElement>;
-
-export const TrashIcon = ({
-  width = 16,
-  height = 16,
-  ...props
-}: TrashIconProps) => (
+export const TrashIcon = ({ width, height, ...props }: IProps) => (
   <svg
     width={width}
     height={height}

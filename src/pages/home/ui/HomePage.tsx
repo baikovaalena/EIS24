@@ -1,11 +1,13 @@
+import { CountersTable } from '@widgets/counters-table';
 import './HomePage.scss';
-import { DeleteButton } from '@shared/ui/DeleteButton';
 
 export const HomePage = () => {
   return (
     <main className="home-page">
-      <h1 className="home-page__title">EIS24</h1>
-      <DeleteButton />
+      <div className="home-page__container">
+        <h1 className="home-page__title">Список счётчиков</h1>
+        <CountersTable />
+      </div>
     </main>
   );
 };
