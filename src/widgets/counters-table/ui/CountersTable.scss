@@ -1,8 +1,5 @@
 .counters-table {
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-height: 0;
   border-radius: 12px;
   background: var(--color-white);
   border: 1px solid var(--counter-row-hover-bg);
@@ -16,10 +13,11 @@
   }
 
   &__table {
-    --counters-table-columns: 40px 120px 120px 100px 140px minmax(240px, 1fr)
-      minmax(160px, 220px) 64px;
+    --counters-table-columns: 48px minmax(80px, 0.7fr) minmax(110px, 0.9fr)
+      minmax(90px, 0.7fr) minmax(120px, 1fr) minmax(260px, 2fr)
+      minmax(180px, 1.4fr) 64px;
+    width: max(100%, 1040px);
 
-    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
