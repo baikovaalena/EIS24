@@ -9,9 +9,9 @@ interface IProps {
   index?: number;
 }
 
-export const CounterRow = ({ className, deleteAction, index = 1 }: IProps) => (
+export const CounterRow = ({ className, deleteAction }: IProps) => (
   <tr className={clsx('counter-row', className)}>
-    <td className="counter-row__index">{index}</td>
+    <td className="counter-row__index">1</td>
 
     <td className="counter-row__type">
       <div className="counter-row__type-content">
