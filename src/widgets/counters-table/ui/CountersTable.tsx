@@ -6,7 +6,7 @@ import { DeleteCounter } from '@features/delete-counter';
 import { formatCounterType } from '@shared/lib/formatCounterType';
 import { formatDate } from '@shared/lib/formatDate';
 import { Loader } from '@shared/ui/Loader';
-// import { Pagination } from '@shared/ui/Pagination';
+import { Pagination } from '@shared/ui/Pagination';
 import './CountersTable.scss';
 
 const formatCurrentValue = (counter: TCounter) =>
@@ -81,7 +81,7 @@ export const CountersTable = observer(() => {
                 </tr>
               )}
           </tbody>
-          {/* <tfoot>
+          <tfoot>
             <tr>
               <td>
                 <Pagination
@@ -91,7 +91,7 @@ export const CountersTable = observer(() => {
                 />
               </td>
             </tr>
-          </tfoot> */}
+          </tfoot>
         </table>
       </div>
     </div>
