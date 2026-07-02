@@ -1,11 +1,11 @@
 .counter-row {
   font-size: 14px;
   line-height: 20px;
-  border-bottom: 1px solid var(--counter-row-hover-bg);
+  border-bottom: 1px solid var(--color-slate-200);
   cursor: pointer;
 
   &:hover {
-    background: var(--counter-row-hover-bg);
+    background: var(--color-slate-200);
   }
 
   td {
@@ -23,7 +23,7 @@
   &__status,
   &__value,
   &__address {
-    color: var(--counter-row-text-color);
+    color: var(--color-gray-900);
   }
 
   &__index {
@@ -37,7 +37,7 @@
   }
 
   &__type-label {
-    color: var(--counter-row-type-color);
+    color: var(--color-slate-900);
   }
 
   &__type-icon {
@@ -51,7 +51,7 @@
   }
 
   &__location {
-    color: var(--counter-row-location-color);
+    color: var(--color-slate-500);
   }
 
   &__delete {

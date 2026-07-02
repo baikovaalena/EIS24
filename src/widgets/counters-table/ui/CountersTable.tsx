@@ -3,16 +3,21 @@ import { observer } from 'mobx-react-lite';
 import { areasStore } from '@entities/area';
 import { CounterRow, countersStore, type TCounter } from '@entities/counter';
 import { DeleteCounter } from '@features/delete-counter';
-import {
-  formatCounterType,
-  type CounterType,
-} from '@shared/lib/formatCounterType';
+import { formatCounterType } from '@shared/lib/formatCounterType';
 import { formatDate } from '@shared/lib/formatDate';
 import { Loader } from '@shared/ui/Loader';
+// import { Pagination } from '@shared/ui/Pagination';
 import './CountersTable.scss';
 
 const formatCurrentValue = (counter: TCounter) =>
   counter.initial_values.length ? counter.initial_values.join(', ') : '-';
+
+const formatIsAutomatic = (value: boolean | null): string => {
+  if (value === null) {
+    return '-';
+  }
+  return value ? 'да' : 'нет';
+};
 
 export const CountersTable = observer(() => {
   useEffect(() => {
@@ -48,17 +53,9 @@ export const CountersTable = observer(() => {
                 description={counter.description?.trim() || '-'}
                 index={countersStore.offset + index + 1}
                 installationDate={formatDate(counter.installation_date)}
-                isAutomatic={
-                  counter.is_automatic === null
-                    ? '-'
-                    : counter.is_automatic
-                      ? 'да'
-                      : 'нет'
-                }
-                typeLabel={formatCounterType(
-                  counter._type as readonly CounterType[]
-                )}
-                type={counter._type[0] as CounterType | undefined}
+                isAutomatic={formatIsAutomatic(counter.is_automatic)}
+                typeLabel={formatCounterType(counter.counterTypes)}
+                type={counter.counterTypes[0]}
               />
             ))}
 
@@ -84,6 +81,17 @@ export const CountersTable = observer(() => {
                 </tr>
               )}
           </tbody>
+          {/* <tfoot>
+            <tr>
+              <td>
+                <Pagination
+                  page={countersStore.page}
+                  totalPages={countersStore.totalPages}
+                  onPageChange={(p) => countersStore.setPage(p)}
+                />
+              </td>
+            </tr>
+          </tfoot> */}
         </table>
       </div>
     </div>

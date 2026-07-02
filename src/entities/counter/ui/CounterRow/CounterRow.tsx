@@ -1,9 +1,7 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
-import {
-  getCounterTypeIcon,
-  type CounterType,
-} from '@shared/lib/formatCounterType';
+import { getCounterTypeIcon } from '@shared/lib/formatCounterType';
+import type { TCounterType } from '@shared/lib/counterTypes';
 import './CounterRow.scss';
 
 interface IProps {
@@ -13,7 +11,7 @@ interface IProps {
   installationDate: string;
   isAutomatic: string;
   typeLabel: string;
-  type?: CounterType;
+  type?: TCounterType;
   index?: number;
   deleteAction?: ReactNode;
   className?: string;

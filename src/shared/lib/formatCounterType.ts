@@ -1,24 +1,22 @@
 import { iconColdWater, iconHotWater } from '@shared/images';
+import type { TCounterType } from './counterTypes';
 
-export type CounterType = 'ColdWaterAreaMeter' | 'HotWaterAreaMeter';
+interface ICounterTypeConfig {
+  type: TCounterType;
+  label: string;
+  icon: string;
+}
 
-const TYPE_LABELS: Record<CounterType, string> = {
-  ColdWaterAreaMeter: 'ХВС',
-  HotWaterAreaMeter: 'ГВС',
-};
+const COUNTER_TYPE_CONFIGS: ICounterTypeConfig[] = [
+  { type: 'ColdWaterAreaMeter', label: 'ХВС', icon: iconColdWater },
+  { type: 'HotWaterAreaMeter', label: 'ГВС', icon: iconHotWater },
+];
 
-const TYPE_ICONS: Record<CounterType, string> = {
-  ColdWaterAreaMeter: iconColdWater,
-  HotWaterAreaMeter: iconHotWater,
-};
-
-export const formatCounterType = (
-  counterTypes: readonly CounterType[]
-): string =>
+export const formatCounterType = (counterTypes: TCounterType[]): string =>
   counterTypes
-    .map((type) => TYPE_LABELS[type])
+    .map((type) => COUNTER_TYPE_CONFIGS.find((c) => c.type === type)?.label)
     .filter(Boolean)
     .join(' / ') || '-';
 
-export const getCounterTypeIcon = (type: CounterType): string =>
-  TYPE_ICONS[type];
+export const getCounterTypeIcon = (type: TCounterType): string =>
+  COUNTER_TYPE_CONFIGS.find((c) => c.type === type)?.icon ?? '';

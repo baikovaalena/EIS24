@@ -3,7 +3,7 @@
   flex-direction: column;
   border-radius: 12px;
   background: var(--color-white);
-  border: 1px solid var(--counter-row-hover-bg);
+  border: 1px solid var(--color-slate-200);
   overflow: hidden;
 
   &__scroll {
@@ -55,18 +55,35 @@
       }
     }
 
+    tfoot {
+      display: block;
+      flex-shrink: 0;
+      width: 100%;
+      border-top: 1px solid var(--color-slate-200);
+      padding: 0 20px;
+
+      tr {
+        display: block;
+      }
+
+      td {
+        display: block;
+        grid-column: unset;
+      }
+    }
+
     tr {
       display: grid;
       grid-template-columns: var(--counters-table-columns);
-      color: var(--counter-table-header-text-color);
+      color: var(--color-slate-600);
     }
 
     th {
       padding: 8px 0;
       font-weight: 500;
       white-space: nowrap;
-      background: var(--counter-table-header-bg);
-      border-bottom: 1px solid var(--counter-row-hover-bg);
+      background: var(--color-slate-100);
+      border-bottom: 1px solid var(--color-slate-200);
 
       &:first-child {
         padding-left: 20px;
@@ -80,11 +97,11 @@
       display: flex;
       justify-content: center;
       padding: 20px;
-      color: var(--counter-row-location-color);
+      color: var(--color-slate-500);
     }
 
     &_error td {
-      color: var(--delete-button-icon);
+      color: var(--color-red-600);
     }
   }
 
@@ -94,11 +111,11 @@
     justify-content: flex-end;
     gap: 16px;
     padding: 12px 20px;
-    border-top: 1px solid var(--counter-row-hover-bg);
+    border-top: 1px solid var(--color-slate-200);
   }
 
   &__pagination-info {
-    color: var(--counter-row-location-color);
+    color: var(--color-slate-500);
     font-size: 14px;
     line-height: 20px;
   }
@@ -106,18 +123,18 @@
   &__pagination-button {
     min-width: 92px;
     padding: 8px 14px;
-    border: 1px solid var(--counter-row-hover-bg);
+    border: 1px solid var(--color-slate-200);
     border-radius: 8px;
     background: var(--color-white);
-    color: var(--counter-row-text-color);
+    color: var(--color-gray-900);
     cursor: pointer;
 
     &:hover:not(:disabled) {
-      background: var(--counter-row-hover-bg);
+      background: var(--color-slate-200);
     }
 
     &:disabled {
-      color: var(--delete-button-disabled-icon);
+      color: var(--color-slate-400);
       cursor: not-allowed;
     }
   }

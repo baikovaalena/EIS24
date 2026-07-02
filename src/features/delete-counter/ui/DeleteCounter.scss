@@ -9,18 +9,18 @@
   padding: 10px 12px;
   border: none;
   border-radius: 8px;
-  background: var(--delete-button-bg);
-  color: var(--delete-button-icon);
+  background: var(--color-red-100);
+  color: var(--color-red-600);
   cursor: pointer;
 
   &:hover:not(:disabled) {
-    background: var(--delete-button-hover-bg);
-    color: var(--delete-button-hover-icon);
+    background: var(--color-red-200);
+    color: var(--color-red-800);
   }
 
   &:disabled {
-    background: var(--delete-button-disabled-bg);
-    color: var(--delete-button-disabled-icon);
+    background: var(--color-slate-50);
+    color: var(--color-slate-400);
     cursor: not-allowed;
   }
 }

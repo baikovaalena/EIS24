@@ -1,16 +1,23 @@
 :root {
+  /* Base */
   --color-white: #ffffff;
-  --home-page-bg: #f8f9fa;
-  --delete-button-bg: #fee3e3;
-  --delete-button-icon: #c53030;
-  --delete-button-hover-bg: #fed7d7;
-  --delete-button-hover-icon: #9b2c2c;
-  --delete-button-disabled-bg: #f2f5f8;
-  --delete-button-disabled-icon: #9da6b4;
-  --counter-row-type-color: #1d2432;
-  --counter-row-text-color: #1f2939;
-  --counter-row-location-color: #5e6674;
-  --counter-row-hover-bg: #e0e5eb;
-  --counter-table-header-bg: #f0f3f7;
-  --counter-table-header-text-color: #697180;
+
+  /* Gray */
+  --color-gray-50: #f8f9fa;
+  --color-gray-900: #1f2939;
+
+  /* Slate */
+  --color-slate-50: #f2f5f8;
+  --color-slate-100: #f0f3f7;
+  --color-slate-200: #e0e5eb;
+  --color-slate-400: #9da6b4;
+  --color-slate-500: #5e6674;
+  --color-slate-600: #697180;
+  --color-slate-900: #1d2432;
+
+  /* Red */
+  --color-red-100: #fee3e3;
+  --color-red-200: #fed7d7;
+  --color-red-600: #c53030;
+  --color-red-800: #9b2c2c;
 }

@@ -29,16 +29,15 @@ export const CountersStore = types
     let currentRequestId = 0;
 
     const loadPage = flow(function* loadPage(offset = self.offset) {
-      currentRequestId++;
-      const requestId = currentRequestId;
+      const requestId = ++currentRequestId;
+      const isStale = () => requestId !== currentRequestId;
 
       self.isLoading = true;
       self.error = null;
 
       try {
         const data: IMetersResponse = yield fetchCounters(self.limit, offset);
-
-        if (requestId !== currentRequestId) return;
+        if (isStale()) return;
 
         self.items = cast(data.results);
         self.count = data.count;
@@ -49,12 +48,13 @@ export const CountersStore = types
         const uniqueAreaIds = [...new Set(data.results.map((c) => c.area.id))];
         void areasStore.loadAreas(uniqueAreaIds);
       } catch (error) {
-        if (requestId !== currentRequestId) return;
-
+        if (isStale()) return;
         self.error =
-          error instanceof Error ? error.message : 'Не удалось загрузить счётчики';
+          error instanceof Error
+            ? error.message
+            : 'Не удалось загрузить счётчики';
       } finally {
-        if (requestId === currentRequestId) {
+        if (!isStale()) {
           self.isLoading = false;
         }
       }
