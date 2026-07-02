@@ -1,29 +1,24 @@
 import { useEffect } from 'react';
+import clsx from 'clsx';
+import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { areasStore } from '@entities/area';
-import { CounterRow, countersStore, type TCounter } from '@entities/counter';
+import { CounterRow, countersStore } from '@entities/counter';
 import { DeleteCounter } from '@features/delete-counter';
-import { formatCounterType } from '@shared/lib/formatCounterType';
-import { formatDate } from '@shared/lib/formatDate';
 import { Loader } from '@shared/ui/Loader';
 import { Pagination } from '@shared/ui/Pagination';
 import './CountersTable.scss';
 
-const formatCurrentValue = (counter: TCounter) =>
-  counter.initial_values.length ? counter.initial_values.join(', ') : '-';
-
-const formatIsAutomatic = (value: boolean | null): string => {
-  if (value === null) {
-    return '-';
-  }
-  return value ? 'да' : 'нет';
-};
-
 export const CountersTable = observer(() => {
   useEffect(() => {
-    if (!countersStore.items.length && !countersStore.isLoading) {
-      void countersStore.loadPage(0);
-    }
+    return reaction(
+      () => countersStore.items.map((c) => c.area.id),
+      (ids) => {
+        const uniqueIds = [...new Set(ids)];
+        if (uniqueIds.length) void areasStore.loadAreas(uniqueIds);
+      },
+      { fireImmediately: true },
+    );
   }, []);
 
   return (
@@ -47,29 +42,29 @@ export const CountersTable = observer(() => {
             {countersStore.items.map((counter, index) => (
               <CounterRow
                 key={counter.id}
-                address={areasStore.getAddress(counter.area.id)}
-                currentValue={formatCurrentValue(counter)}
-                deleteAction={<DeleteCounter />}
-                description={counter.description?.trim() || '-'}
+                counter={counter}
                 index={countersStore.offset + index + 1}
-                installationDate={formatDate(counter.installation_date)}
-                isAutomatic={formatIsAutomatic(counter.is_automatic)}
-                typeLabel={formatCounterType(counter.counterTypes)}
-                type={counter.counterTypes[0]}
+                address={areasStore.getAddress(counter.area.id)}
+                deleteAction={<DeleteCounter counterId={counter.id} />}
               />
             ))}
 
             {countersStore.isLoading && (
               <tr className="counters-table__message-row">
-                <td>
+                <td colSpan={8}>
                   <Loader />
                 </td>
               </tr>
             )}
 
             {countersStore.error && (
-              <tr className="counters-table__message-row counters-table__message-row_error">
-                <td>{countersStore.error}</td>
+              <tr
+                className={clsx(
+                  'counters-table__message-row',
+                  'counters-table__message-row_error',
+                )}
+              >
+                <td colSpan={8}>{countersStore.error}</td>
               </tr>
             )}
 
@@ -77,7 +72,7 @@ export const CountersTable = observer(() => {
               !countersStore.error &&
               !countersStore.items.length && (
                 <tr className="counters-table__message-row">
-                  <td>Счётчики не найдены</td>
+                  <td colSpan={8}>Счётчики не найдены</td>
                 </tr>
               )}
           </tbody>

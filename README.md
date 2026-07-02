@@ -1,75 +1,80 @@
-# React + TypeScript + Vite
+# EIS24 — Список счётчиков
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite приложение для просмотра приборов учёта.
 
-Currently, two official plugins are available:
+## Быстрый старт
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Команды
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Команда | Описание |
+|---------|----------|
+| `npm run dev` | Запуск dev-сервера |
+| `npm run build` | Сборка для production (`tsc` + `vite build`) |
+| `npm run lint` | Проверка ESLint |
+| `npm run preview` | Preview production-сборки |
+| `npm run format` | Форматирование кода через Prettier |
+| `npm run format:check` | Проверка форматирования |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Переменные окружения
+
+Создайте файл `.env` в корне проекта:
+
+```env
+VITE_API_BASE_URL=https://your-api-host.example.com/api/
+```
+
+`VITE_API_BASE_URL` должен заканчиваться на `/`. Все API-запросы используют этот адрес как базовый через `src/shared/api/client.ts`.
+
+## Архитектура (Feature-Sliced Design)
+
+Проект следует методологии [FSD](https://feature-sliced.design/). Слои расположены от наиболее переиспользуемых к наиболее специфичным:
 
 ```
+src/
+├── app/                        # Инициализация приложения
+│   ├── App.tsx                 # Корневой компонент
+│   ├── providers/
+│   │   └── StoreProvider.tsx   # React Context для MobX-стора
+│   └── styles/                 # Глобальные стили и переменные
+│
+├── pages/                      # Страницы (роуты)
+│   └── home/                   # Главная страница (инициирует загрузку)
+│
+├── widgets/                    # Самодостаточные блоки UI
+│   └── counters-table/         # Таблица счётчиков + пагинация
+│
+├── features/                   # Пользовательские сценарии
+│   └── delete-counter/         # Удаление счётчика (UI + API + хук)
+│
+├── entities/                   # Бизнес-сущности
+│   ├── counter/
+│   │   ├── api/                # fetchCounters
+│   │   ├── lib/                # counterTypes, formatCounterType, formatCounter
+│   │   ├── model/              # CountersStore (MobX-state-tree)
+│   │   └── ui/CounterRow/      # Строка таблицы
+│   └── area/
+│       ├── api/                # fetchAreas
+│       └── model/              # AreasStore (MobX-state-tree)
+│
+└── shared/                     # Переиспользуемый инфраструктурный код
+    ├── api/
+    │   ├── client.ts           # apiGet<T> — единая точка HTTP-запросов
+    │   └── types.ts            # IPaginatedResponse<T>
+    ├── lib/
+    │   └── formatDate.ts       # Универсальный форматтер дат
+    ├── images/                 # SVG-иконки и TrashIcon
+    └── ui/
+        ├── Loader/
+        └── Pagination/
+```
+
+### Правила импортов (FSD)
+
+- Слои могут импортировать только из **нижележащих** слоёв: `pages → widgets → features → entities → shared`.
+- Entities не импортируют друг друга. Оркестрация между `counter` и `area` происходит на уровне `widgets/counters-table`.
+- Из каждого слайса импортируется только через его `index.ts` (public API).

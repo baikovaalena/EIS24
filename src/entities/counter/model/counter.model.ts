@@ -1,5 +1,5 @@
 import { types } from 'mobx-state-tree';
-import { COUNTER_TYPES, type TCounterType } from '@shared/lib/counterTypes';
+import { COUNTER_TYPES, type TCounterType } from '../lib/counterTypes';
 
 const isCounterType = (value: string): value is TCounterType =>
   (COUNTER_TYPES as readonly string[]).includes(value);

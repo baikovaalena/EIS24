@@ -1,7 +1,10 @@
 import { HomePage } from '@pages/home';
+import { StoreProvider } from './providers/StoreProvider';
 
-const App = () => {
-  return <HomePage />;
-};
+const App = () => (
+  <StoreProvider>
+    <HomePage />
+  </StoreProvider>
+);
 
 export default App;

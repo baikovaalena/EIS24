@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import './Pagination.scss';
 
 interface PaginationProps {
@@ -53,7 +54,7 @@ export const Pagination = ({ page, totalPages, onPageChange }: PaginationProps) 
     return (
       <button
         key={p}
-        className={`pagination__button${p === page ? ' pagination__button_active' : ''}`}
+        className={clsx('pagination__button', p === page && 'pagination__button_active')}
         onClick={() => onPageChange(p)}
         aria-label={`Страница ${p}`}
         aria-current={p === page ? 'page' : undefined}

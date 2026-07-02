@@ -1,5 +1,4 @@
 import { cast, flow, types } from 'mobx-state-tree';
-import { areasStore } from '@entities/area';
 import { fetchCounters } from '../api/counters.api';
 import { CounterModel } from './counter.model';
 import type { IMetersResponse } from './types';
@@ -10,8 +9,6 @@ export const CountersStore = types
   .model('CountersStore', {
     items: types.array(CounterModel),
     count: 0,
-    next: types.maybeNull(types.string),
-    previous: types.maybeNull(types.string),
     limit: PAGE_LIMIT,
     offset: 0,
     isLoading: false,
@@ -41,12 +38,7 @@ export const CountersStore = types
 
         self.items = cast(data.results);
         self.count = data.count;
-        self.next = data.next;
-        self.previous = data.previous;
         self.offset = offset;
-
-        const uniqueAreaIds = [...new Set(data.results.map((c) => c.area.id))];
-        void areasStore.loadAreas(uniqueAreaIds);
       } catch (error) {
         if (isStale()) return;
         self.error =
