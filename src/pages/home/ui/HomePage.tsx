@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { countersStore } from '@entities/counter';
 import { CountersTable } from '@widgets/counters-table';
 import './HomePage.scss';
 
 export const HomePage = () => {
+  const [searchParams] = useSearchParams();
+
   useEffect(() => {
-    if (!countersStore.items.length && !countersStore.isLoading) {
-      void countersStore.loadPage(0);
-    }
+    const page = Number(searchParams.get('page') ?? '1');
+    const offset = (Math.max(1, page) - 1) * countersStore.limit;
+    countersStore.loadPage(offset);
   }, []);
 
   return (

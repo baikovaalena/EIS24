@@ -1,6 +1,8 @@
 .counters-table {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
   border-radius: 12px;
   background: var(--color-white);
   border: 1px solid var(--color-slate-200);
@@ -93,6 +95,7 @@
 
   &__message-row {
     td {
+      grid-column: 1 / -1;
       display: flex;
       justify-content: center;
       padding: 20px;

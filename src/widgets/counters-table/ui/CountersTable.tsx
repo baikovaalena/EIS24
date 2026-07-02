@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import clsx from 'clsx';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import { useSearchParams } from 'react-router-dom';
 import { areasStore } from '@entities/area';
 import { CounterRow, countersStore } from '@entities/counter';
 import { DeleteCounter } from '@features/delete-counter';
@@ -10,6 +11,8 @@ import { Pagination } from '@shared/ui/Pagination';
 import './CountersTable.scss';
 
 export const CountersTable = observer(() => {
+  const [, setSearchParams] = useSearchParams();
+
   useEffect(() => {
     return reaction(
       () => countersStore.items.map((c) => c.area.id),
@@ -82,7 +85,10 @@ export const CountersTable = observer(() => {
                 <Pagination
                   page={countersStore.page}
                   totalPages={countersStore.totalPages}
-                  onPageChange={(p) => countersStore.setPage(p)}
+                  onPageChange={(p) => {
+                    setSearchParams({ page: String(p) });
+                    countersStore.setPage(p);
+                  }}
                 />
               </td>
             </tr>

@@ -11,7 +11,7 @@ export const CountersStore = types
     count: 0,
     limit: PAGE_LIMIT,
     offset: 0,
-    isLoading: false,
+    isLoading: true,
     error: types.maybeNull(types.string),
   })
   .views((self) => ({
@@ -31,6 +31,7 @@ export const CountersStore = types
 
       self.isLoading = true;
       self.error = null;
+      self.items = cast([]);
 
       try {
         const data: IMetersResponse = yield fetchCounters(self.limit, offset);

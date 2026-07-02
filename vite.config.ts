@@ -4,6 +4,17 @@ import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
   plugins: [react()],
+  // Dev-only proxy: avoids CORS in the browser. GET works cross-origin, but DELETE
+  // requires a preflight OPTIONS request that the API rejects without Allow-Origin.
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://showroom.eis24.me',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   resolve: {
     alias: {
       '@app': fileURLToPath(new URL('./src/app', import.meta.url)),

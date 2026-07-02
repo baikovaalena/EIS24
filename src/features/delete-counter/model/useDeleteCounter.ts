@@ -11,7 +11,10 @@ export function useDeleteCounter(counterId: string) {
     setError(null);
     try {
       await deleteCounter(counterId);
-      void countersStore.loadPage(countersStore.offset);
+      const { offset, limit, count } = countersStore;
+      const newCount = count - 1;
+      const newOffset = offset > 0 && offset >= newCount ? offset - limit : offset;
+      void countersStore.loadPage(newOffset);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Не удалось удалить счётчик',
