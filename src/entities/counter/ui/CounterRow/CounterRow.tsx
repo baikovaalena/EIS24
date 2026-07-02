@@ -1,32 +1,57 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
-import { iconHotWater } from '@shared/images';
+import {
+  getCounterTypeIcon,
+  type CounterType,
+} from '@shared/lib/formatCounterType';
 import './CounterRow.scss';
 
 interface IProps {
-  className?: string;
-  deleteAction?: ReactNode;
+  address: string;
+  currentValue: string;
+  description: string;
+  installationDate: string;
+  isAutomatic: string;
+  typeLabel: string;
+  type?: CounterType;
   index?: number;
+  deleteAction?: ReactNode;
+  className?: string;
 }
 
-export const CounterRow = ({ className, deleteAction }: IProps) => (
+export const CounterRow = ({
+  address,
+  className,
+  currentValue,
+  description,
+  deleteAction,
+  index,
+  installationDate,
+  isAutomatic,
+  type,
+  typeLabel,
+}: IProps) => (
   <tr className={clsx('counter-row', className)}>
-    <td className="counter-row__index">1</td>
+    <td className="counter-row__index">{index}</td>
 
     <td className="counter-row__type">
       <div className="counter-row__type-content">
-        <img className="counter-row__type-icon" src={iconHotWater} alt="" />
-        <span className="counter-row__type-label">ТПЛ</span>
+        {type && (
+          <img
+            className="counter-row__type-icon"
+            src={getCounterTypeIcon(type)}
+            alt=""
+          />
+        )}
+        <span className="counter-row__type-label">{typeLabel}</span>
       </div>
     </td>
 
-    <td className="counter-row__date">12.01.2023</td>
-    <td className="counter-row__status">да</td>
-    <td className="counter-row__value">333467.6636</td>
-    <td className="counter-row__address">
-      г Санкт-Петербург, ул Тарасова, д. 0 корп. 0 лит. А, кв. 1
-    </td>
-    <td className="counter-row__location">Подвал, парадная 1</td>
+    <td className="counter-row__date">{installationDate}</td>
+    <td className="counter-row__status">{isAutomatic}</td>
+    <td className="counter-row__value">{currentValue}</td>
+    <td className="counter-row__address">{address}</td>
+    <td className="counter-row__location">{description}</td>
 
     <td className="counter-row__delete">{deleteAction}</td>
   </tr>
