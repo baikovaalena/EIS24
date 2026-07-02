@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import { areasStore } from '@entities/area';
 import { CounterRow, countersStore, type TCounter } from '@entities/counter';
 import { DeleteCounter } from '@features/delete-counter';
 import {
@@ -41,7 +42,7 @@ export const CountersTable = observer(() => {
             {countersStore.items.map((counter, index) => (
               <CounterRow
                 key={counter.id}
-                address={counter.area.id}
+                address={areasStore.getAddress(counter.area.id)}
                 currentValue={formatCurrentValue(counter)}
                 deleteAction={<DeleteCounter />}
                 description={counter.description?.trim() || '-'}

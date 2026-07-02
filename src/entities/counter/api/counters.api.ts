@@ -6,7 +6,7 @@ export async function fetchCounters(limit: number, offset: number): Promise<IMet
     offset: String(offset),
   });
 
-  const response = await fetch(`${import.meta.env.VITE_METERS_API_URL}?${params}`);
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}meters/?${params}`);
 
   if (!response.ok) {
     throw new Error(`Ошибка загрузки: ${response.status}`);
